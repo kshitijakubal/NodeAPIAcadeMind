@@ -1,16 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/getProducts', (req,res,next) => {
+router.get('/', (req,res,next) => {
     res.status(200).json({
         message:"Get Products API"
 
     })
 })
 
-router.post('/postProducts', (req, res, next) => {
+router.post('/', (req, res, next) => {
+    const Product = {
+        name: req.body.name,
+        price: req.body.price
+    }
     res.status(200).json({
-        message:"Create Product API"
+        message:"Create Product API",
+        product: Product
     })
 })
 // Get by ID
