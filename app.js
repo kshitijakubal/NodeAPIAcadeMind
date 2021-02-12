@@ -4,8 +4,9 @@ const app = express();
 const morgan = require('morgan')
 // For parsing request data
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
 
-// importing Routes
+// importing Route
 const productRoute = require('./api/routes/products');
 const orderRoute = require('./api/routes/orders');
 
@@ -13,6 +14,14 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+// database connection using URI on Mongo Atlas
+mongoose.connect("mongodb+srv://nodeapi:nodeapi@cluster0.vs9dg.mongodb.net/nodeapi?retryWrites=true&w=majority"
+)
+// 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 // middleware
 app.use('/products', productRoute);
 app.use('/orders', orderRoute);
