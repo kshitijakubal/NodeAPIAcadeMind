@@ -102,7 +102,7 @@ router.patch('/:id', (req,res,next) => {
             message:"Product updated successfully",
             request:{
                 type:'GET',
-                url:"http://localhost:3000/products/"+result._id
+                url:"http://localhost:3000/products/"+id
             }
         })
     })
