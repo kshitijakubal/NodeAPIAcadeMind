@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 // importing Route
 const productRoute = require('./api/routes/products');
 const orderRoute = require('./api/routes/orders');
+const userRoute = require('./api/routes/users');
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended:false}));
@@ -25,6 +26,7 @@ mongoose.set('useUnifiedTopology', true);
 // middleware
 app.use('/products', productRoute);
 app.use('/orders', orderRoute);
+app.use('/users',userRoute);
 
 // error Handling
 app.use((req,res,next) => {
@@ -42,7 +44,8 @@ app.use((error,req,res,next) => {
         }
     })
 })
-
+// For accessing uploads folder publicly
+app.use(express.static('uploads'))
 // Handle Cross-Origin-Resource-Sharing
 app.use((req, res, next) => {
     // To give access to any origin ( we can add restrictions here to some websites)

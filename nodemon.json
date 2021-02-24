@@ -1,6 +1,7 @@
 
 {
     "env":{
-        "process.env.MONGO_ATLAS_PW":"nodeapi"
+        "process.env.MONGO_ATLAS_PW":"nodeapi",
+        "JWT_KEY":"kskjUYlmNkY&ULKjkjhJg"
     }
 }
