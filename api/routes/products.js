@@ -6,6 +6,8 @@ const Product = require('../models/products.models')
 const mongoose = require('mongoose');
 // For image upload
 const multer = require('multer')
+// Middleware to protect certain routes using jwt
+const checkAuth = require('../middleware/checkAuth');
 // detailed configuration of storage
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -66,7 +68,7 @@ router.get('/', (req,res,next) => {
 
 // upload.single('productImage') will tell the route to parse the file data.
 // 'productImage' is the name of field from which the image will be uploaded in postman.
-router.post('/', upload.single('productImage'),(req, res, next) => {
+router.post('/',checkAuth, upload.single('productImage'),(req, res, next) => {
     console.log(req.file);
    const product = new Product({
        _id: new mongoose.Types.ObjectId(),
@@ -121,7 +123,7 @@ router.get('/:id', (req,res,next) => {
     )
 })
 // Patch
-router.patch('/:id', (req,res,next) => {
+router.patch('/:id',checkAuth, (req,res,next) => {
     const id = req.params.id;
     // for patching
     const updateOperations = {}
@@ -146,7 +148,7 @@ router.patch('/:id', (req,res,next) => {
     })
 })
 // Delete
-router.delete('/:id', (req,res) => {
+router.delete('/:id',checkAuth, (req,res) => {
     const id = req.params.id;
     Product.remove({_id:id}).exec()
     .then(result => {

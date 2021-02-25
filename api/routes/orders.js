@@ -3,9 +3,10 @@ const app = require('../../app');
 const router = express.Router();
 const mongoose = require('mongoose')
 const Order = require('../models/orders.models')
-const Product = require('../models/products.models')
+const Product = require('../models/products.models');
+const checkAuth = require('../middleware/checkAuth');
 
-router.get('/',(req,res) => {
+router.get('/',checkAuth,(req,res) => {
     Order.find()
     .select('_id product quantity')
     .populate('product','name')
@@ -34,7 +35,7 @@ router.get('/',(req,res) => {
     })
     
 })
-router.post('/',(req,res)=>{
+router.post('/',checkAuth,(req,res)=>{
     Product.findById(req.body.productId)
     .then(product => {
         if(!product){
@@ -59,7 +60,7 @@ router.post('/',(req,res)=>{
     })
     
 })
-router.get('/:id',(req,res)=>{
+router.get('/:id',checkAuth,(req,res)=>{
     Order.findById(req.params.id)
     .populate('product')
     .select('_id product quantity')
@@ -74,7 +75,7 @@ router.get('/:id',(req,res)=>{
         })
     })
 })
-router.patch('/:productId',(req,res)=>{
+router.patch('/:productId',checkAuth,(req,res)=>{
     const id = req.params.productId
     const updateOperations = {}
     for(const ops of req.body){
@@ -97,7 +98,7 @@ router.patch('/:productId',(req,res)=>{
         })
     })
 })
-router.delete('/:id',(req,res)=>{
+router.delete('/:id',checkAuth,(req,res)=>{
     Order.remove({_id:req.params.id}).exec()
     .then(result => {
         res.status(200).json({
